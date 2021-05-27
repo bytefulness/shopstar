@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState, useEffect } from "react";
 import {
   InputLabel,
   Select,
@@ -7,20 +7,31 @@ import {
   Grid,
   Typography,
 } from "@material-ui/core";
+import { commerce } from "../../lib/commerce";
 import { useForm, FormProvider } from "react-hook-form";
 import FormInput from "./CustomTextField";
 
-function AddressForm() {
+function AddressForm({ checkoutToken }) {
   const [shippingCountries, setShippingCountries] = useState([]);
-  const [shippingCounter, setShippingCountry] = useState('');
+  const [shippingCounter, setShippingCountry] = useState("");
   const [shippingSubdivisions, setShippingSubdivisions] = useState([]);
-  const [shippingSubdivision, setShippingSubdivision] = useState('');
+  const [shippingSubdivision, setShippingSubdivision] = useState("");
   const [shippingOptions, setShippingOptions] = useState([]);
-  const [shippingOption, setShippingOption] = useState('');
-
-
-
+  const [shippingOption, setShippingOption] = useState("");
   const methods = useForm();
+
+  const fetchShippingCountries = async (checkoutTokenId) => {
+    const { countries } = await commerce.services.localeListShippingCountries(
+      checkoutTokenId
+    );
+
+    setShippingCountries(countries);
+    setShippingCountry(Object.keys(countries)[0]);
+  };
+
+  useEffect(() => {
+    fetchShippingCountries(checkoutToken.id);
+  }, []);
 
   return (
     <>
@@ -35,7 +46,7 @@ function AddressForm() {
             <FormInput required name="addres1" label="Address" />
             <FormInput required name="email" label="Email" />
             <FormInput required name="zip" label="ZIP / Postal code" />
-          </Grid>
+          
 
           <Grid item xs={12} sm={6}>
             <InputLabel>Shipping Country</InputLabel>
@@ -63,6 +74,8 @@ function AddressForm() {
               </MenuItem>
             </Select>
           </Grid>
+
+          </Grid> 
         </form>
       </FormProvider>
     </>
