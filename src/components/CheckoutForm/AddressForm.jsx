@@ -11,7 +11,7 @@ import { commerce } from "../../lib/commerce";
 import { useForm, FormProvider } from "react-hook-form";
 import FormInput from "./CustomTextField";
 
-function AddressForm({ checkoutToken }) {
+const AddressForm = ({ checkoutToken }) => {
   const [shippingCountries, setShippingCountries] = useState([]);
   const [shippingCounter, setShippingCountry] = useState("");
   const [shippingSubdivisions, setShippingSubdivisions] = useState([]);
@@ -21,12 +21,16 @@ function AddressForm({ checkoutToken }) {
   const methods = useForm();
 
   const fetchShippingCountries = async (checkoutTokenId) => {
-    const { countries } = await commerce.services.localeListShippingCountries(
-      checkoutTokenId
-    );
+    try {
+      const { countries } = await commerce.services.localeListShippingCountries(
+        checkoutTokenId
+      );
 
-    setShippingCountries(countries);
-    setShippingCountry(Object.keys(countries)[0]);
+      setShippingCountries(countries);
+      setShippingCountry(Object.keys(countries)[0]);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -46,9 +50,8 @@ function AddressForm({ checkoutToken }) {
             <FormInput required name="addres1" label="Address" />
             <FormInput required name="email" label="Email" />
             <FormInput required name="zip" label="ZIP / Postal code" />
-          
 
-          <Grid item xs={12} sm={6}>
+            {/* <Grid item xs={12} sm={6}>
             <InputLabel>Shipping Country</InputLabel>
             <Select value={ } fullWitdh onChange={ }>
               <MenuItem key={ } value={ }>
@@ -73,13 +76,12 @@ function AddressForm({ checkoutToken }) {
                 Select Me
               </MenuItem>
             </Select>
+          </Grid> */}
           </Grid>
-
-          </Grid> 
         </form>
       </FormProvider>
     </>
   );
-}
+};
 
 export default AddressForm;

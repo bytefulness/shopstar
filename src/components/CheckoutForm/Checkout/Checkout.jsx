@@ -16,7 +16,7 @@ import useStyles from "./styles";
 
 const steps = ["Shipping address", "Payment details"];
 
-function Checkout({ cart }) {
+const Checkout = ({ cart }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [checkoutToken, setCheckoutToken] = useState(null);
   const classes = useStyles();
@@ -78,6 +78,6 @@ function Checkout({ cart }) {
       </main>
     </>
   );
-}
+};
 
 export default Checkout;

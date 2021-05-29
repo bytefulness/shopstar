@@ -9,32 +9,56 @@ function App() {
 
   // Fetch products from the api
   const fetchProducts = async () => {
-    const { data } = await commerce.products.list();
-    setProducts(data);
+    try {
+      const { data } = await commerce.products.list();
+      setProducts(data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const fetchCart = async () => {
-    setCart(await commerce.cart.retrieve());
+    try {
+      setCart(await commerce.cart.retrieve());
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleAddToCart = async (productId, quantity) => {
-    const { cart } = await commerce.cart.add(productId, quantity);
-    setCart(cart);
+    try {
+      const { cart } = await commerce.cart.add(productId, quantity);
+      setCart(cart);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleUpdateCartQuantity = async (productId, quantity) => {
-    const { cart } = await commerce.cart.update(productId, { quantity });
-    setCart(cart);
+    try {
+      const { cart } = await commerce.cart.update(productId, { quantity });
+      setCart(cart);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleRemoveFromCart = async (productId) => {
-    const { cart } = await commerce.cart.remove(productId);
-    setCart(cart);
+    try {
+      const { cart } = await commerce.cart.remove(productId);
+      setCart(cart);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleEmptyCart = async () => {
-    const { cart } = await commerce.cart.empty();
-    setCart(cart);
+    try {
+      const { cart } = await commerce.cart.empty();
+      setCart(cart);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
